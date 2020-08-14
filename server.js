@@ -2,7 +2,9 @@ const express = require('express');
 const next = require('next');
 const schedule = require('node-schedule');
 
-const port = parseInt(process.env.PORT, 10) || 3000;
+const youtubeBatchService = require('./services/youtube-cron-service');
+
+process.env.PORT = process.env.PORT || 3000;
 
 class NextCronApp {
 
@@ -43,8 +45,7 @@ class NextCronApp {
   initCronJobs() {
     // every 2 minutes
     schedule.scheduleJob('*/10 * * * * *', async() => {
-      // eslint-disable-next-line no-console
-      console.info(`現在の時間は ${new Date()}`);
+      youtubeBatchService.hoge();
     });
 
     // eslint-disable-next-line no-console
@@ -74,9 +75,9 @@ class NextCronApp {
 const nextCronApp = new NextCronApp();
 nextCronApp.init().then(() => {
   const expressApp = nextCronApp.getExpressApp();
-  expressApp.listen(port, (err) => {
+  expressApp.listen(process.env.PORT, (err) => {
     if (err) throw err;
     // eslint-disable-next-line no-console
-    console.info(`> Ready on http://localhost:${port}`);
+    console.info(`> Ready on http://localhost:${process.env.PORT}`);
   });
 });
