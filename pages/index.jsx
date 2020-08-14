@@ -1,3 +1,6 @@
+import React from 'react';
+
+
 export default function Home() {
   return (
     <>
@@ -5,5 +8,5 @@ export default function Home() {
       <p>show my page</p>
       <a href="https://itizawa-tech.growi.cloud/5f3644fc2d4e0b00485c1d96">https://itizawa-tech.growi.cloud/next-cron</a>
     </>
-  )
+  );
 }
