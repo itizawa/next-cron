@@ -1,5 +1,6 @@
 const express = require('express');
 const next = require('next');
+const schedule = require('node-schedule');
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 
@@ -19,10 +20,9 @@ class NextCronApp {
    */
   async init() {
     this.nextApp = this.initNextJs();
-
     await this.nextApp.prepare();
 
-
+    this.initCronJobs();
     this.expressApp = express();
     await this.initRoutes(this.nextApp, this.expressApp);
   }
@@ -35,6 +35,19 @@ class NextCronApp {
       dir: '.',
       dev: (process.env.NODE_ENV !== 'production'),
     });
+  }
+
+  /**
+   * initialize cron jobs
+   */
+  initCronJobs() {
+    // every 2 minutes
+    schedule.scheduleJob('*/10 * * * * *', async() => {
+      console.log(new Date());
+    });
+
+    // eslint-disable-next-line no-console
+    console.info('initialized cron jobs');
   }
 
   /**
@@ -62,6 +75,7 @@ nextCronApp.init().then(() => {
   const expressApp = nextCronApp.getExpressApp();
   expressApp.listen(port, (err) => {
     if (err) throw err;
-    console.log(`> Ready on http://localhost:${port}`);
+    // eslint-disable-next-line no-console
+    console.info(`> Ready on http://localhost:${port}`);
   });
 });
