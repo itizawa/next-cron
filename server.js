@@ -43,6 +43,7 @@ class NextCronApp {
   initCronJobs() {
     // every 2 minutes
     schedule.scheduleJob('*/10 * * * * *', async() => {
+      // eslint-disable-next-line no-console
       console.info(`現在の時間は ${new Date()}`);
     });
 
