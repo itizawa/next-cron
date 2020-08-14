@@ -1,0 +1,18 @@
+{
+  "name": "next-cron",
+  "version": "1.0.0",
+  "description": "cron job with next.js",
+  "main": "index.js",
+  "repository": "https://github.com/itizawa/next-cron.git",
+  "author": "itizawa <itizawa@weseek.co.jp>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "node server.js",
+    "build": "next build",
+    "start": "cross-env NODE_ENV=production node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "next": "^9.5.2"
+  }
+}
