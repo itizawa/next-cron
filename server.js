@@ -1,10 +1,8 @@
 const express = require('express');
 const next = require('next');
-const schedule = require('node-schedule');
+const brokenRadio = require('./services/broken-radio');
 
 const port = parseInt(process.env.PORT, 10) || 3000;
-
-const slackNotification = require('./services/slack-notification');
 
 class NextCronApp {
 
@@ -43,13 +41,7 @@ class NextCronApp {
    * initialize cron jobs
    */
   initCronJobs() {
-
-    // every 10 seconds
-    schedule.scheduleJob('*/10 * * * * *', async() => {
-      // eslint-disable-next-line no-console
-      console.info(`現在の時間は ${new Date()}`);
-      slackNotification.fire('#slack_bot', 'itizawa', 'こんばんは人類');
-    });
+    brokenRadio.init();
 
     // eslint-disable-next-line no-console
     console.info('initialized cron jobs');
