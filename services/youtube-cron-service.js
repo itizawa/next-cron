@@ -34,6 +34,7 @@ class YoutubeCronService {
       const res = await this.youtubeClient.subscriptions.list({
         part: 'id',
         mine: true,
+        maxResults: 100,
       });
 
       return res.data.items;
