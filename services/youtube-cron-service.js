@@ -1,7 +1,7 @@
 require('dotenv').config();
 const { google } = require('googleapis');
 
-class YoutubeBatchService {
+class YoutubeCronService {
 
   constructor() {
     this.youtubeClient = undefined;
@@ -24,7 +24,15 @@ class YoutubeBatchService {
     this.youtubeClient = client;
   }
 
+  /**
+   * 登録しているチャンネルを取得する
+   * @memberof YoutubeCronService
+   */
+  async createPlaylist() {
+    console.log('hoge');
+  }
+
 }
 
-const service = new YoutubeBatchService();
+const service = new YoutubeCronService();
 module.exports = service;
