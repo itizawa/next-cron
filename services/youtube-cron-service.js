@@ -1,4 +1,5 @@
 require('dotenv').config();
+const { format } = require('date-fns');
 const { google } = require('googleapis');
 
 class YoutubeCronService {
@@ -43,6 +44,33 @@ class YoutubeCronService {
       // eslint-disable-next-line no-console
       console.log(error.errors);
       return [];
+    }
+  }
+
+  /**
+   * Create New Playlist
+   * @memberof YoutubeCronService]
+   * @return {object} created playlist
+   */
+  async createNewPlaylist() {
+    try {
+      const res = await this.youtubeClient.playlists.insert({
+        part: 'snippet',
+        resource: {
+          snippet: {
+            title: `${format(new Date(), 'yyyy-MM-dd')}`,
+            tags: '自動保存',
+            description: `作成日 ${format(new Date(), 'yyyy-MM-dd')}`,
+          },
+        },
+      });
+
+      return res.data;
+    }
+    catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error.errors);
+      return null;
     }
   }
 
