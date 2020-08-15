@@ -84,7 +84,7 @@ class YoutubeCronService {
 
   /**
    * Get new video (1day) for each channel
-   * @memberof YoutubeBatchService
+   * @memberof YoutubeCronService
    *
    * @param {subscriptionId} array
    * @param {object} id id of resourceId
@@ -109,6 +109,36 @@ class YoutubeCronService {
 
     return results.flatMap((result) => {
       return result.value;
+    });
+  }
+
+  /**
+   * Add video to playlist
+   * @memberof YoutubeCronService
+   *
+   * @param {array} videoIds ids of resourceId
+   * @param {string} playlistId id of playlist
+   */
+  async insertVideosToPlayList(videoIds, playlistId) {
+
+    const promises = videoIds.map(async(videoId) => {
+      return this.youtubeClient.playlistItems.insert({
+        part: 'snippet',
+        requestBody: {
+          snippet: {
+            playlistId,
+            resourceId: videoId,
+          },
+        },
+      });
+    });
+
+    const results = await Promise.allSettled(promises);
+
+    return results.map((result) => {
+      // eslint-disable-next-line no-console
+      console.log(`「${result.value.data.snippet.title}」を追加しました`);
+      return result.value.data.snippet;
     });
   }
 

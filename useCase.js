@@ -8,10 +8,12 @@ async function main() {
   // TODO テスト ids
   const channelIds = ['UC1EB8moGYdkoZQfWHjh7Ivw', 'UCFo4kqllbcQ4nV83WCyraiw'];
 
-  const newVideoIds = await youtubeCronService.retrieveNewVideoIdsBySubscriptionId(channelIds);
-  console.log(newVideoIds);
+  const newPlaylist = await youtubeCronService.createNewPlaylist();
 
-  // const newPlaylist = await youtubeCronService.createNewPlaylist();
+  const videoIds = await youtubeCronService.retrieveNewVideoIdsBySubscriptionId(channelIds);
+
+  await youtubeCronService.insertVideosToPlayList(videoIds, newPlaylist.id);
+
 }
 
 
