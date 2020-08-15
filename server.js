@@ -4,6 +4,8 @@ const schedule = require('node-schedule');
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 
+const slackNotification = require('./services/slack-notification');
+
 class NextCronApp {
 
   constructor() {
@@ -41,10 +43,12 @@ class NextCronApp {
    * initialize cron jobs
    */
   initCronJobs() {
-    // every 2 minutes
+
+    // every 10 seconds
     schedule.scheduleJob('*/10 * * * * *', async() => {
       // eslint-disable-next-line no-console
       console.info(`現在の時間は ${new Date()}`);
+      slackNotification.fire('#slack_bot', 'itizawa', 'こんばんは人類');
     });
 
     // eslint-disable-next-line no-console
