@@ -25,11 +25,24 @@ class YoutubeCronService {
   }
 
   /**
-   * 登録しているチャンネルを取得する
-   * @memberof YoutubeCronService
+   * Get subscribed channels
+   * @memberof YoutubeCronService]
+   * @return {array} subscribed channels
    */
-  async createPlaylist() {
-    console.log('hoge');
+  async getSubscribedChannels() {
+    try {
+      const res = await this.youtubeClient.subscriptions.list({
+        part: 'id',
+        mine: true,
+      });
+
+      return res.data.items;
+    }
+    catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error.errors);
+      return [];
+    }
   }
 
 }
