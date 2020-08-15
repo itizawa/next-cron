@@ -2,6 +2,8 @@ require('dotenv').config();
 const { format } = require('date-fns');
 const { google } = require('googleapis');
 
+const getYesterday = require('../libs/getYesterday');
+
 class YoutubeCronService {
 
   constructor() {
@@ -26,19 +28,25 @@ class YoutubeCronService {
   }
 
   /**
-   * Get subscribed channels
+   * Get channelIds by subscriptions
    * @memberof YoutubeCronService]
-   * @return {array} subscribed channels
+   *
+   * @return {array} channelIds
    */
-  async getSubscribedChannels() {
+  async getChannelIds() {
     try {
       const res = await this.youtubeClient.subscriptions.list({
-        part: 'id',
+        part: 'snippet',
         mine: true,
         maxResults: 100,
       });
 
-      return res.data.items;
+      // generate array
+      const channelIds = res.data.items.map((item) => {
+        return item.snippet.resourceId.channelId;
+      });
+
+      return channelIds;
     }
     catch (error) {
       // eslint-disable-next-line no-console
@@ -72,6 +80,36 @@ class YoutubeCronService {
       console.log(error.errors);
       return null;
     }
+  }
+
+  /**
+   * Get new video (1day) for each channel
+   * @memberof YoutubeBatchService
+   *
+   * @param {subscriptionId} array
+   * @param {object} id id of resourceId
+   */
+  async retrieveNewVideoIdsBySubscriptionId(channelIds) {
+
+    const promises = channelIds.map(async(channelId) => {
+      const movies = await this.youtubeClient.search.list({
+        part: 'id',
+        channelId,
+        type: 'video',
+        order: 'date',
+        publishedAfter: getYesterday(),
+      });
+
+      return movies.data.items.map((item) => {
+        return item.id;
+      });
+    });
+
+    const results = await Promise.allSettled(promises);
+
+    return results.flatMap((result) => {
+      return result.value;
+    });
   }
 
 }
