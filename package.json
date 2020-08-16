@@ -12,7 +12,8 @@
     "start": "cross-env NODE_ENV=production node server.js",
     "lint:js:fix": "eslint \"**/*.{js,jsx}\" --fix",
     "lint:js": "eslint \"**/*.{js,jsx}\"",
-    "lint": "yarn lint:js"
+    "lint": "yarn lint:js",
+    "deploy": "yarn build && gcloud app deploy app.yml"
   },
   "dependencies": {
     "axios": "^0.19.2",
