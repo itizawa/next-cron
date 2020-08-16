@@ -3,9 +3,19 @@ const Slack = require('slack-node');
 
 const webhookUri = process.env.WEBHOOK_URL;
 
-class SlackNotification {
+/**
+ * the service class of SlackNotificationService
+ */
+class SlackNotificationService {
 
-  constructor() {
+  constructor(nc) {
+    this.nc = nc;
+    this.slack = undefined;
+
+    this.init();
+  }
+
+  init() {
     this.slack = new Slack();
     this.slack.setWebhook(webhookUri);
   }
@@ -25,5 +35,4 @@ class SlackNotification {
 
 }
 
-const service = new SlackNotification();
-module.exports = service;
+module.exports = SlackNotificationService;

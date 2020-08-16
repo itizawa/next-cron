@@ -6,17 +6,14 @@ const slackNotification = require('./slack-notification');
 class BrokenRadio {
 
   constructor() {
-    this.brokenRadio = null;
-    this.enableCronJob = true;
+    this.brokenRadioJob = null;
+    this.enableCronJob = process.env.ENABLE_BROKEN_RADIO || false;
   }
-
-  getEnableCronJob() {
-    return this.enableCronJob;
-  }
-
 
   init() {
-    if (!this.getEnableCronJob()) {
+    if (!this.enableCronJob) {
+      // eslint-disable-next-line no-console
+      console.info('BrokenRadioService: ENABLE_BROKEN_RADIO is false');
       return;
     }
 
@@ -25,10 +22,13 @@ class BrokenRadio {
 
   setupSchedule() {
     // every 10 seconds
-    schedule.scheduleJob('*/10 * * * * *', async() => {
+    this.brokenRadioJob = schedule.scheduleJob('*/10 * * * * *', async() => {
       // eslint-disable-next-line no-console
-      slackNotification.fire('#slack_bot', 'itizawa', `現在の時間は ${new Date()}`);
+      slackNotification.fire('#slack_bot', 'testbot', `現在の時間は ${new Date()}`);
     });
+
+    // eslint-disable-next-line no-console
+    console.info('BrokenRadioService: setup is done');
   }
 
   fire(channel, username, text) {
