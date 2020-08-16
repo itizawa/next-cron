@@ -2,13 +2,13 @@ require('dotenv').config();
 
 const schedule = require('node-schedule');
 
-class BrokenRadioService {
+class TimeSignalService {
 
   constructor(nc) {
     this.nc = nc;
 
-    this.brokenRadioJob = null;
-    this.enableCronJob = JSON.parse(process.env.ENABLE_BROKEN_RADIO) || false;
+    this.timeSignalJob = null;
+    this.enableCronJob = JSON.parse(process.env.ENABLE_TIME_SIGNAL) || false;
 
     this.init();
   }
@@ -16,7 +16,7 @@ class BrokenRadioService {
   init() {
     if (!this.enableCronJob) {
       // eslint-disable-next-line no-console
-      console.info('BrokenRadioService: ENABLE_BROKEN_RADIO is false');
+      console.info('TimeSignalService: ENABLE_TIME_SIGNAL is false');
       return;
     }
 
@@ -25,13 +25,13 @@ class BrokenRadioService {
 
   setupSchedule() {
     // every 10 seconds
-    this.brokenRadioJob = schedule.scheduleJob('*/10 * * * * *', async() => {
+    this.timeSignalJob = schedule.scheduleJob('* * */1 * * *', async() => {
       // eslint-disable-next-line no-console
       this.nc.slackNotificationService.fire('#slack_bot', 'testbot', `現在の時間は ${new Date()}`);
     });
 
     // eslint-disable-next-line no-console
-    console.info('BrokenRadioService: setup is done');
+    console.info('TimeSignalService: setup is done');
   }
 
   fire(channel, username, text) {
@@ -49,4 +49,4 @@ class BrokenRadioService {
 
 }
 
-module.exports = BrokenRadioService;
+module.exports = TimeSignalService;
