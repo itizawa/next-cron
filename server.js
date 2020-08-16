@@ -1,8 +1,7 @@
 const express = require('express');
 const next = require('next');
-const schedule = require('node-schedule');
 
-const youtubeBatchService = require('./services/youtube-cron-service');
+const NextCronService = require('./services/index');
 
 process.env.PORT = process.env.PORT || 3000;
 
@@ -11,6 +10,8 @@ class NextCronApp {
   constructor() {
     this.nextApp = undefined;
     this.expressApp = undefined;
+
+    this.nextCronService = undefined;
   }
 
   getExpressApp() {
@@ -43,10 +44,8 @@ class NextCronApp {
    * initialize cron jobs
    */
   initCronJobs() {
-    // every 2 minutes
-    schedule.scheduleJob('*/10 * * * * *', async() => {
-      youtubeBatchService.hoge();
-    });
+    this.nextCronService = new NextCronService();
+    this.nextCronService.setupService();
 
     // eslint-disable-next-line no-console
     console.info('initialized cron jobs');
