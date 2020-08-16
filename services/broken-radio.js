@@ -1,13 +1,16 @@
 require('dotenv').config();
 
 const schedule = require('node-schedule');
-const slackNotification = require('./slack-notification');
 
-class BrokenRadio {
+class BrokenRadioService {
 
-  constructor() {
+  constructor(nc) {
+    this.nc = nc;
+
     this.brokenRadioJob = null;
-    this.enableCronJob = process.env.ENABLE_BROKEN_RADIO || false;
+    this.enableCronJob = JSON.parse(process.env.ENABLE_BROKEN_RADIO) || false;
+
+    this.init();
   }
 
   init() {
@@ -24,7 +27,7 @@ class BrokenRadio {
     // every 10 seconds
     this.brokenRadioJob = schedule.scheduleJob('*/10 * * * * *', async() => {
       // eslint-disable-next-line no-console
-      slackNotification.fire('#slack_bot', 'testbot', `現在の時間は ${new Date()}`);
+      this.nc.slackNotificationService.fire('#slack_bot', 'testbot', `現在の時間は ${new Date()}`);
     });
 
     // eslint-disable-next-line no-console
@@ -46,5 +49,4 @@ class BrokenRadio {
 
 }
 
-const service = new BrokenRadio();
-module.exports = service;
+module.exports = BrokenRadioService;

@@ -1,15 +1,16 @@
 
-class nextCronService {
+class NextCronService {
 
   constructor() {
 
     this.slackNotificationService = null;
-
+    this.brokenRadioService = null;
   }
 
   async setupService() {
     await Promise.all([
       this.setUpSlacklNotification(),
+      this.setUpBrokenRadioService(),
     ]);
   }
 
@@ -23,5 +24,15 @@ class nextCronService {
     }
   }
 
+  /**
+   * setup BrokenRadioService
+   */
+  setUpBrokenRadioService() {
+    const BrokenRadioService = require('./broken-radio');
+    if (this.brokenRadioService == null) {
+      this.brokenRadioService = new BrokenRadioService(this);
+    }
+  }
+
 }
-module.exports = nextCronService;
+module.exports = NextCronService;
