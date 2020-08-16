@@ -1,7 +1,11 @@
 require('dotenv').config();
 const Slack = require('slack-node');
 
-const webhookUri = process.env.WEBHOOK_URL;
+const getConfig = require('next/config');
+
+const { publicRuntimeConfig } = getConfig();
+
+const webhookUri = publicRuntimeConfig.WEBHOOK_URL;
 
 /**
  * the service class of SlackNotificationService
