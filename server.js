@@ -1,6 +1,7 @@
 const express = require('express');
 const next = require('next');
-const schedule = require('node-schedule');
+
+const NextCronService = require('./services/index');
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 
@@ -9,6 +10,8 @@ class NextCronApp {
   constructor() {
     this.nextApp = undefined;
     this.expressApp = undefined;
+
+    this.nextCronService = undefined;
   }
 
   getExpressApp() {
@@ -41,11 +44,8 @@ class NextCronApp {
    * initialize cron jobs
    */
   initCronJobs() {
-    // every 2 minutes
-    schedule.scheduleJob('*/10 * * * * *', async() => {
-      // eslint-disable-next-line no-console
-      console.info(`現在の時間は ${new Date()}`);
-    });
+    this.nextCronService = new NextCronService();
+    this.nextCronService.setupService();
 
     // eslint-disable-next-line no-console
     console.info('initialized cron jobs');
