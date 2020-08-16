@@ -25,7 +25,7 @@ class TimeSignalService {
 
   setupSchedule() {
     // every 10 seconds
-    this.timeSignalJob = schedule.scheduleJob('* 1 * * *', async() => {
+    this.timeSignalJob = schedule.scheduleJob('*/30 * * * * *', async() => {
       // eslint-disable-next-line no-console
       this.nc.slackNotificationService.fire('#slack_bot', 'testbot', `現在の時間は ${new Date()}`);
     });
