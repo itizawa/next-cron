@@ -1,15 +1,14 @@
 require('dotenv').config();
-const getConfig = require('next/config');
+
 const schedule = require('node-schedule');
 
-const { publicRuntimeConfig } = getConfig();
 class TimeSignalService {
 
   constructor(nc) {
     this.nc = nc;
 
     this.timeSignalJob = null;
-    this.enableCronJob = JSON.parse(publicRuntimeConfig.ENABLE_TIME_SIGNAL) || false;
+    this.enableCronJob = JSON.parse(process.env.ENABLE_TIME_SIGNAL) || false;
 
     this.init();
   }
