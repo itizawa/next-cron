@@ -113,6 +113,35 @@ class YoutubeCronService {
   }
 
   /**
+   * Insert video to playlist
+   * @memberof YoutubeCronService
+   *
+   * @param {string} videoId id of video
+   * @param {object} playlistId id of playlist
+   * @param {int} index index of position
+   */
+  async insertOneMovieToPlayList(videoId, playlistId, index) {
+    try {
+      const res = await this.youtubeClient.playlistItems.insert({
+        part: 'snippet',
+        requestBody: {
+          snippet: {
+            position: index,
+            playlistId,
+            resourceId: videoId,
+          },
+        },
+      });
+      // eslint-disable-next-line no-console
+      return console.log(`YoutubeCronService:「${res.data.snippet.title}」を追加しました`);
+    }
+    catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
+    }
+  }
+
+  /**
    * Add video to playlist
    * @memberof YoutubeCronService
    *
@@ -121,25 +150,19 @@ class YoutubeCronService {
    */
   async insertVideosToPlayList(videoIds, playlistId) {
 
-    const promises = videoIds.map(async(videoId) => {
-      return this.youtubeClient.playlistItems.insert({
-        part: 'snippet',
-        requestBody: {
-          snippet: {
-            playlistId,
-            resourceId: videoId,
-          },
-        },
-      });
-    });
+    const insertLoop = (maxCount, i) => {
+      if (i <= maxCount) {
+        this.insertOneMovieToPlayList(videoIds[i], playlistId, i);
+        // eslint-disable-next-line no-param-reassign
+        setTimeout(() => { insertLoop(maxCount, ++i) }, 10000);
+      }
+    };
 
-    const results = await Promise.allSettled(promises);
+    // Can not save at the same time so provide 10 seconds interval.
+    await insertLoop(videoIds.length, 0);
 
-    return results.map((result) => {
-      // eslint-disable-next-line no-console
-      console.log(`「${result.value.data.snippet.title}」を追加しました`);
-      return result.value.data.snippet;
-    });
+    // eslint-disable-next-line no-console
+    return console.log('YoutubeCronService: insertVideosToPlayList is done');
   }
 
 }
