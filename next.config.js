@@ -2,5 +2,8 @@ module.exports = {
   env: {
     WEBHOOK_URL: process.env.WEBHOOK_URL,
     ENABLE_TIME_SIGNAL: process.env.ENABLE_TIME_SIGNAL,
+    YOUTUBE_CLIENT_ID: process.env.YOUTUBE_CLIENT_ID,
+    YOUTUBE_CLIENT_SECRET: process.env.YOUTUBE_CLIENT_SECRET,
+    YOUTUBE_REFRESH_TOKEN: process.env.YOUTUBE_REFRESH_TOKEN,
   },
 };

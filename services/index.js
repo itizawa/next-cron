@@ -5,6 +5,7 @@ class NextCronService {
 
     this.slackNotificationService = null;
     this.timeSignalService = null;
+    this.youtubeService = null;
   }
 
   async setupService() {
@@ -12,6 +13,7 @@ class NextCronService {
 
     await Promise.all([
       this.setUpTimeSignalService(),
+      this.setUpYoutubeService(),
     ]);
   }
 
@@ -32,6 +34,16 @@ class NextCronService {
     const TimeSignalService = require('./time-signal');
     if (this.timeSignalService == null) {
       this.timeSignalService = new TimeSignalService(this);
+    }
+  }
+
+  /**
+   * setup YoutubeService
+   */
+  setUpYoutubeService() {
+    const YoutubeService = require('./youtube-service');
+    if (this.youtubeService == null) {
+      this.youtubeService = new YoutubeService(this);
     }
   }
 
