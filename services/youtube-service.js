@@ -52,6 +52,7 @@ class YoutubeService {
     this.timeSignalJob = schedule.scheduleJob('* * 8 * * *', async() => {
       // eslint-disable-next-line no-console
       console.log('YoutubeService: fire youtube notification');
+      // eslint-disable-next-line no-console
       console.log(`TimeSignalService: fire time signal ${new Date()}`);
       this.nc.slackNotificationService.fire('#slack_bot', 'Youtube Bot', '再生リストを作成しました！');
     });
