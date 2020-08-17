@@ -1,4 +1,4 @@
-const youtubeCronService = require('./services/youtube-cron-service');
+const youtubeCronService = require('./services/youtube-service');
 
 
 async function main() {

@@ -1,16 +1,36 @@
 require('dotenv').config();
+
+const schedule = require('node-schedule');
+
 const { format } = require('date-fns');
 const { google } = require('googleapis');
 
 const getYesterday = require('../libs/getYesterday');
 
-class YoutubeCronService {
+class YoutubeService {
 
-  constructor() {
+  constructor(nc) {
+    this.nc = nc;
+
+    this.youtubeJob = null;
     this.youtubeClient = undefined;
+    this.enableCronJob = JSON.parse(process.env.ENABLE_YOUTUBE) || false;
+
+    this.init();
   }
 
   async init() {
+    if (!this.enableCronJob) {
+      // eslint-disable-next-line no-console
+      console.info('YoutubeService: YoutubeService is false');
+      return;
+    }
+
+    await this.setupService();
+    this.setupSchedule();
+  }
+
+  async setupService() {
     const { OAuth2 } = google.auth;
     const clientId = process.env.YOUTUBE_CLIENT_ID;
     const clientSecret = process.env.YOUTUBE_CLIENT_SECRET;
@@ -25,6 +45,19 @@ class YoutubeCronService {
     });
 
     this.youtubeClient = client;
+  }
+
+  setupSchedule() {
+    // every 10 seconds
+    this.timeSignalJob = schedule.scheduleJob('* * 8 * * *', async() => {
+      // eslint-disable-next-line no-console
+      console.log('YoutubeService: fire youtube notification');
+      console.log(`TimeSignalService: fire time signal ${new Date()}`);
+      this.nc.slackNotificationService.fire('#slack_bot', 'Youtube Bot', '再生リストを作成しました！');
+    });
+
+    // eslint-disable-next-line no-console
+    console.info('YoutubeService: setup is done');
   }
 
   /**
@@ -167,5 +200,4 @@ class YoutubeCronService {
 
 }
 
-const service = new YoutubeCronService();
-module.exports = service;
+module.exports = YoutubeService;
