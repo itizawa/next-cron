@@ -63,7 +63,9 @@ class YoutubeService {
       const videoIds = await this.youtubeCronService.retrieveNewVideoIdsBySubscriptionId(channelIds);
       await this.youtubeCronService.insertVideosToPlayList(videoIds, this.playlistId);
 
-      this.nc.slackNotificationService.fire('#slack_bot', 'Youtube Bot', `https://www.youtube.com/playlist?list=${this.playlistId}`);
+      this.nc.slackNotificationService.fire(
+        '#slack_bot', 'Youtube Bot', `再生リストに保存しました！\n https://www.youtube.com/playlist?list=${this.playlistId}`,
+      );
     });
 
     // eslint-disable-next-line no-console

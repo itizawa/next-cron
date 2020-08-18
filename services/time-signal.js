@@ -9,6 +9,7 @@ class TimeSignalService {
 
     this.timeSignalJob = null;
     this.enableCronJob = JSON.parse(process.env.ENABLE_TIME_SIGNAL) || false;
+    this.slackChannel = process.env.CHANNEL_FOR_TIME_SIGNAL || '#general';
 
     this.init();
   }
@@ -27,7 +28,9 @@ class TimeSignalService {
     this.timeSignalJob = schedule.scheduleJob('0 0 * * * *', async() => {
       // eslint-disable-next-line no-console
       console.log(`TimeSignalService: fire time signal ${new Date()}`);
-      this.nc.slackNotificationService.fire('#slack_bot', 'Time Signal', `現在の時間は ${new Date()}`);
+      this.nc.slackNotificationService.fire(
+        this.slackChannel, 'Time Signal', `現在の時間は ${new Date()}`, ':stopwatch:',
+      );
     });
 
     // eslint-disable-next-line no-console
