@@ -48,8 +48,8 @@ class YoutubeService {
   }
 
   setupSchedule() {
-    // every 10 seconds
-    this.timeSignalJob = schedule.scheduleJob('* * 8 * * *', async() => {
+    // fire 8 hours every day
+    this.youtubeJob = schedule.scheduleJob('0 0 8 * * *', async() => {
       // eslint-disable-next-line no-console
       console.log('YoutubeService: fire youtube notification');
       // eslint-disable-next-line no-console
