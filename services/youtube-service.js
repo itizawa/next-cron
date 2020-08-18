@@ -15,6 +15,8 @@ class YoutubeService {
     this.youtubeJob = null;
     this.youtubeClient = undefined;
     this.enableCronJob = JSON.parse(process.env.ENABLE_YOUTUBE) || false;
+    this.playlistId = process.env.YOUTUBE_PLAYLIST_ID || null;
+    this.slackChannel = process.env.CHANNEL_FOR_YOUTUBE || '#general';
 
     this.init();
   }
@@ -49,12 +51,22 @@ class YoutubeService {
 
   setupSchedule() {
     // fire 8 hours every day
-    this.youtubeJob = schedule.scheduleJob('0 0 11 * * *', async() => {
+    this.youtubeJob = schedule.scheduleJob('0 0 8 * * *', async() => {
       // eslint-disable-next-line no-console
       console.log('YoutubeService: fire youtube notification');
-      // eslint-disable-next-line no-console
-      console.log(`TimeSignalService: fire time signal ${new Date()}`);
-      this.nc.slackNotificationService.fire('#slack_bot', 'Youtube Bot', '再生リストを作成しました！');
+
+      if (this.playlistId == null) {
+        // eslint-disable-next-line no-console
+        return console.log('Playlist id is not set');
+      }
+
+      const channelIds = await this.youtubeCronService.getChannelIds();
+      const videoIds = await this.youtubeCronService.retrieveNewVideoIdsBySubscriptionId(channelIds);
+      await this.youtubeCronService.insertVideosToPlayList(videoIds, this.playlistId);
+
+      this.nc.slackNotificationService.fire(
+        this.slackChannel, 'Youtube Bot', `再生リストに保存しました！\n https://www.youtube.com/playlist?list=${this.playlistId}`, 'movie_camera',
+      );
     });
 
     // eslint-disable-next-line no-console

@@ -20,11 +20,12 @@ class SlackNotificationService {
     this.slack.setWebhook(webhookUri);
   }
 
-  fire(channel, username, text) {
+  fire(channel, username, text, icon_emoji = ':tada:') {
     this.slack.webhook({
       channel,
       username,
       text,
+      icon_emoji,
     }, (err, response) => {
       if (err == null) return;
       // eslint-disable-next-line no-console
