@@ -13,8 +13,7 @@
     "useCase": "node useCase.js",
     "lint:js:fix": "eslint \"**/*.{js,jsx}\" --fix",
     "lint:js": "eslint \"**/*.{js,jsx}\"",
-    "lint": "yarn lint:js",
-    "deploy": "yarn build && gcloud app deploy app.yml"
+    "lint": "yarn lint:js"
   },
   "dependencies": {
     "axios": "^0.19.2",

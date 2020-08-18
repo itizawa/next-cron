@@ -24,7 +24,6 @@ class TimeSignalService {
   }
 
   setupSchedule() {
-    // every 10 seconds
     this.timeSignalJob = schedule.scheduleJob('0 0 * * * *', async() => {
       // eslint-disable-next-line no-console
       console.log(`TimeSignalService: fire time signal ${new Date()}`);
