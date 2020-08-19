@@ -166,7 +166,7 @@ class YoutubeService {
    * @param {object} playlistId id of playlist
    * @param {int} index index of position
    */
-  async insertOneMovieToPlayList(videoId, playlistId, index) {
+  async insertOneMovieToPlayList(videoId, playlistId, index = 0) {
     try {
       const res = await this.youtubeClient.playlistItems.insert({
         part: 'snippet',
@@ -203,7 +203,7 @@ class YoutubeService {
 
     const insertLoop = (maxCount, i) => {
       if (i <= maxCount) {
-        this.insertOneMovieToPlayList(videoIds[i], playlistId, i);
+        this.insertOneMovieToPlayList(videoIds[i], playlistId);
         // eslint-disable-next-line no-param-reassign
         setTimeout(() => { insertLoop(maxCount, ++i) }, 10000);
       }
