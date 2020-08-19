@@ -205,7 +205,7 @@ class YoutubeService {
     };
 
     // Can not save at the same time so provide 10 seconds interval.
-    await insertLoop(videoIds.length, 1);
+    await insertLoop(videoIds.length, 0);
 
     // eslint-disable-next-line no-console
     return console.log('YoutubeCronService: insertVideosToPlayList is done');
