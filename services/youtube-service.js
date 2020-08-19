@@ -178,6 +178,11 @@ class YoutubeService {
           },
         },
       });
+
+      this.nc.slackNotificationService.fire(
+        this.slackChannel, 'Youtube Bot', `再生リストに「${res.data.snippet.title}」を追加しました`, 'movie_camera',
+      );
+
       // eslint-disable-next-line no-console
       return console.log(`YoutubeCronService:「${res.data.snippet.title}」を追加しました`);
     }
