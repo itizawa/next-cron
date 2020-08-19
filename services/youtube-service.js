@@ -60,9 +60,9 @@ class YoutubeService {
         return console.log('Playlist id is not set');
       }
 
-      const channelIds = await this.youtubeCronService.getChannelIds();
-      const videoIds = await this.youtubeCronService.retrieveNewVideoIdsBySubscriptionId(channelIds);
-      await this.youtubeCronService.insertVideosToPlayList(videoIds, this.playlistId);
+      const channelIds = await this.getChannelIds();
+      const videoIds = await this.retrieveNewVideoIdsBySubscriptionId(channelIds);
+      await this.insertVideosToPlayList(videoIds, this.playlistId);
 
       this.nc.slackNotificationService.fire(
         this.slackChannel, 'Youtube Bot', `再生リストに保存しました！\n https://www.youtube.com/playlist?list=${this.playlistId}`, 'movie_camera',
