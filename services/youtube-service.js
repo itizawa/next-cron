@@ -24,7 +24,7 @@ class YoutubeService {
   async init() {
     if (!this.enableCronJob) {
       // eslint-disable-next-line no-console
-      console.info('YoutubeService: YoutubeService is false');
+      console.info('YoutubeService: ENABLE_YOUTUBE is false');
       return;
     }
 
