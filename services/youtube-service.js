@@ -14,7 +14,7 @@ class YoutubeService {
 
     this.youtubeJob = null;
     this.youtubeClient = undefined;
-    this.enableCronJob = JSON.parse(process.env.ENABLE_YOUTUBE) || false;
+    this.enableCronJob = JSON.parse(process.env.ENABLE_YOUTUBE || false);
     this.playlistId = process.env.YOUTUBE_PLAYLIST_ID || null;
     this.slackChannel = process.env.CHANNEL_FOR_YOUTUBE || '#general';
 
@@ -202,7 +202,7 @@ class YoutubeService {
   async insertVideosToPlayList(videoIds, playlistId) {
 
     const insertLoop = (maxCount, i) => {
-      if (i <= maxCount) {
+      if (i < maxCount) {
         this.insertOneMovieToPlayList(videoIds[i], playlistId);
         // eslint-disable-next-line no-param-reassign
         setTimeout(() => { insertLoop(maxCount, ++i) }, 10000);

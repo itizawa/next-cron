@@ -8,7 +8,7 @@ class TimeSignalService {
     this.nc = nc;
 
     this.timeSignalJob = null;
-    this.enableCronJob = JSON.parse(process.env.ENABLE_TIME_SIGNAL) || false;
+    this.enableCronJob = JSON.parse(process.env.ENABLE_TIME_SIGNAL || false);
     this.slackChannel = process.env.CHANNEL_FOR_TIME_SIGNAL || '#general';
 
     this.init();
