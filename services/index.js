@@ -15,7 +15,7 @@ class NextCronService {
     await Promise.all([
       this.setUpTimeSignalService(),
       this.setUpYoutubeService(),
-      this.setG(),
+      this.setUpGitHubGrassService(),
     ]);
   }
 
