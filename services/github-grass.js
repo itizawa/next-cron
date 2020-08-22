@@ -1,4 +1,3 @@
-const format = require('date-fns/format');
 const axios = require('axios');
 const schedule = require('node-schedule');
 
