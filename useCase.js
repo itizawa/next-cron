@@ -1,15 +1,12 @@
-const youtubeCronService = require('./services/youtube-service');
-
+const { default: Axios } = require('axios');
 
 async function main() {
-  await youtubeCronService.init();
-  const [channelIds, newPlaylist] = await Promise.all([
-    youtubeCronService.getChannelIds(),
-    youtubeCronService.createNewPlaylist(),
-  ]);
-
-  const videoIds = await youtubeCronService.retrieveNewVideoIdsBySubscriptionId(channelIds);
-  await youtubeCronService.insertVideosToPlayList(videoIds, newPlaylist.id);
+  const res = await Axios.get('https://github.com/users/itizawa/contributions');
+  const grassElement = res.data.toString().match(/<rect(?: [\s\S]+?)?\/>/g);
+  const grasses = grassElement.map((x) => {
+    return { data_date: x.split(' ')[8].slice(11, 21), data_count: Number(x.split(' ')[7].split('"').join('').slice(11)) };
+  }).reverse();
+  console.log(grasses[0].data_count);
 
 }
 
