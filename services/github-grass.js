@@ -30,14 +30,34 @@ class GitHubGrassService {
   }
 
   setupSchedule() {
-    this.githubGrassJob = schedule.scheduleJob('0 * * * * *', async() => {
+    this.githubGrassJob = schedule.scheduleJob('* * 18 * * *', async() => {
       // eslint-disable-next-line no-console
       console.log(`GitHubGrassService: fire github grass service ${new Date()}`);
 
       const grasses = await this.retrieveGrasses();
 
       this.nc.slackNotificationService.fire(
-        this.slackChannel, 'GiuHub Grass', `本日の Contribute 数は ${grasses[0].data_count} です！`, ':four_leaf_clover:',
+        this.slackChannel, 'GiuHub Grass', `Dayliy Notification \n 本日の Contribute 数は ${grasses[0].data_count} です！`, ':four_leaf_clover:',
+      );
+    });
+
+    this.githubGrassJob = schedule.scheduleJob('* * 21 * * sun', async() => {
+      // eslint-disable-next-line no-console
+      console.log(`GitHubGrassService: fire github grass service ${new Date()}`);
+
+      const grasses = await this.retrieveGrasses();
+      let totalCount = 0;
+      const weeklyGrasses = grasses.map((grass, index) => {
+        if (index >= 7) {
+          return null;
+        }
+        totalCount += parseInt(grass.data_count);
+        return `${grass.data_date} の Contribute 数は ${grass.data_count} です。`;
+      });
+      const displayMessage = weeklyGrasses.join('\n');
+
+      this.nc.slackNotificationService.fire(
+        this.slackChannel, 'GiuHub Grass', `Weekly Notification \n 合計値: ${totalCount} 平均値: ${totalCount / 7} \n ${displayMessage}`, ':four_leaf_clover:',
       );
     });
 
