@@ -7,6 +7,7 @@ class NextCronService {
     this.timeSignalService = null;
     this.youtubeService = null;
     this.githubGrassService = null;
+    this.qiitaTrendService = null;
   }
 
   async setupService() {
@@ -16,6 +17,7 @@ class NextCronService {
       this.setUpTimeSignalService(),
       this.setUpYoutubeService(),
       this.setUpGitHubGrassService(),
+      this.setUpQiitaTrendService(),
     ]);
   }
 
@@ -56,6 +58,16 @@ class NextCronService {
     const GitHubGrassService = require('./github-grass');
     if (this.githubGrassService == null) {
       this.githubGrassService = new GitHubGrassService(this);
+    }
+  }
+
+  /**
+   * setup QiitaTrendService
+   */
+  setUpQiitaTrendService() {
+    const QiitaTrendService = require('./qiita-trend');
+    if (this.qiitaTrendService == null) {
+      this.qiitaTrendService = new QiitaTrendService(this);
     }
   }
 
