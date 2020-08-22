@@ -14,7 +14,7 @@ class QiitaTrendService {
     this.qiitaNotifySlackJob = null;
     this.enableCronJob = JSON.parse(process.env.ENABLE_QIITA_TREND || false);
     this.slackChannel = process.env.CHANNEL_FOR_QIITA_TREND || '#general';
-    this.githubUsername = process.env.GITHUB_USERNAME;
+    this.searchText = process.env.SEARCH_WORD_FOR_QIITA_TREND || 'javascript';
     this.dayliyArticle = null;
     this.index = 0;
 
@@ -36,7 +36,7 @@ class QiitaTrendService {
       // eslint-disable-next-line no-console
       console.log(`QiitaTrendService: fire github grass service ${new Date()}`);
 
-      const res = await axios.get('https://qiita.com/api/v2/items?page=1&per_page=100&query=react');
+      const res = await axios.get(`https://qiita.com/api/v2/items?page=1&per_page=100&query=${this.searchText}`);
       this.dayliyArticle = res.data.map((item) => {
         return item.url;
       });
