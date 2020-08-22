@@ -10,6 +10,8 @@ class GitHubGrassService {
 
   constructor(nc) {
     this.nc = nc;
+    this.githubDailyGrassJob = null;
+    this.githubWeeklyGrassJob = null;
     this.githubGrassJob = null;
     this.enableCronJob = JSON.parse(process.env.ENABLE_GITHUB_GRASS || false);
     this.slackChannel = process.env.CHANNEL_FOR_GITHUB_GRASS || '#general';
@@ -29,7 +31,7 @@ class GitHubGrassService {
   }
 
   setupSchedule() {
-    this.githubGrassJob = schedule.scheduleJob('0 0 18 * * *', async() => {
+    this.githubDailyGrassJob = schedule.scheduleJob('0 0 18 * * *', async() => {
       // eslint-disable-next-line no-console
       console.log(`GitHubGrassService: fire github grass service ${new Date()}`);
 
@@ -40,7 +42,7 @@ class GitHubGrassService {
       );
     });
 
-    this.githubGrassJob = schedule.scheduleJob('0 0 21 * * sun', async() => {
+    this.githubWeeklyGrassJob = schedule.scheduleJob('0 0 21 * * sun', async() => {
       // eslint-disable-next-line no-console
       console.log(`GitHubGrassService: fire github grass service ${new Date()}`);
 
