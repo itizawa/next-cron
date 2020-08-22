@@ -29,7 +29,7 @@ class GitHubGrassService {
   }
 
   setupSchedule() {
-    this.githubGrassJob = schedule.scheduleJob('* * 18 * * *', async() => {
+    this.githubGrassJob = schedule.scheduleJob('0 0 18 * * *', async() => {
       // eslint-disable-next-line no-console
       console.log(`GitHubGrassService: fire github grass service ${new Date()}`);
 
@@ -40,7 +40,7 @@ class GitHubGrassService {
       );
     });
 
-    this.githubGrassJob = schedule.scheduleJob('* * 21 * * sun', async() => {
+    this.githubGrassJob = schedule.scheduleJob('0 0 21 * * sun', async() => {
       // eslint-disable-next-line no-console
       console.log(`GitHubGrassService: fire github grass service ${new Date()}`);
 
