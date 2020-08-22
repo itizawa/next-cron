@@ -65,7 +65,6 @@ jobs:
 
     - name: Slack Notification
       uses: weseek/ghaction-slack-notification@master
-      if: failure()
       with:
         type: ${{ job.status }}
         job_name: '*test (${{ matrix.node-version }})*'
