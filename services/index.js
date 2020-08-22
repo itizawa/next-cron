@@ -6,6 +6,7 @@ class NextCronService {
     this.slackNotificationService = null;
     this.timeSignalService = null;
     this.youtubeService = null;
+    this.githubGrassService = null;
   }
 
   async setupService() {
@@ -14,6 +15,7 @@ class NextCronService {
     await Promise.all([
       this.setUpTimeSignalService(),
       this.setUpYoutubeService(),
+      this.setG(),
     ]);
   }
 
@@ -44,6 +46,16 @@ class NextCronService {
     const YoutubeService = require('./youtube-service');
     if (this.youtubeService == null) {
       this.youtubeService = new YoutubeService(this);
+    }
+  }
+
+  /**
+   * setup GitHubGrassService
+   */
+  setUpGitHubGrassService() {
+    const GitHubGrassService = require('./github-grass');
+    if (this.githubGrassService == null) {
+      this.githubGrassService = new GitHubGrassService(this);
     }
   }
 
