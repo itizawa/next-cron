@@ -38,7 +38,7 @@ class QiitaTrendService {
 
       const res = await axios.get(`https://qiita.com/api/v2/items?page=1&per_page=100&query=${this.searchText}`);
       this.dayliyArticle = res.data.map((item) => {
-        return item.url;
+        return `${item.title} \n ${item.url}`;
       });
 
       // reset index
@@ -46,7 +46,7 @@ class QiitaTrendService {
 
     });
 
-    this.qiitaNotifySlackJob = schedule.scheduleJob('0 */10 * * * *', async() => {
+    this.qiitaNotifySlackJob = schedule.scheduleJob('0 */15 * * * *', async() => {
       if (this.dayliyArticle == null) {
         // eslint-disable-next-line no-console
         return console.log('QiitaTrendService: dayliy article is null');
