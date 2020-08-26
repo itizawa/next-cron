@@ -22,7 +22,7 @@ Fulfill a cron job using Express Custom Server with Next.js.
 1. Clone and install
 ```
 $ git clone https://github.com/itizawa/next-cron.git
-$ cd next0cron
+$ cd next-cron
 $ yarn
 ```
 
