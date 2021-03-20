@@ -34,7 +34,7 @@ jobs:
           GIT_PR_RELEASE_BRANCH_PRODUCTION: release
           GIT_PR_RELEASE_BRANCH_STAGING: master
           GIT_PR_RELEASE_LABELS: release
-          GIT_PR_RELEASE_TITLE: v${{ steps.package-version.outputs.current-version}}
+          GIT_PR_RELEASE_TITLE: "v${{ steps.package-version.outputs.current-version}}"
         run: |
           gem install -N git-pr-release -v "1.2.0"
           git-pr-release --no-fetch
