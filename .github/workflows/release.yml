@@ -14,6 +14,8 @@ jobs:
       RELEASE_VERSION: ${{ steps.bump-version.outputs.RELEASE_VERSION }}
 
     steps:
+      - uses: actions/checkout@v2
+
       - name: Bump version
         id: bump-version
         run: |
