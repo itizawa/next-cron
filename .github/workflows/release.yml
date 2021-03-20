@@ -10,13 +10,13 @@ jobs:
   release:
     runs-on: ubuntu-latest
 
-  steps:
-    - name: Slack Notification
-      uses: weseek/ghaction-slack-notification@master
-      if: always()
-      with:
-        type: ${{ job.status }}
-        job_name: '*Release (${{ matrix.node-version }})*'
-        channel: '#general'
-        isCompactMode: true
-        url: ${{ secrets.SLACK_WEBHOOK_URL }}
+    steps:
+      - name: Slack Notification
+        uses: weseek/ghaction-slack-notification@master
+        if: always()
+        with:
+          type: ${{ job.status }}
+          job_name: '*Release (${{ matrix.node-version }})*'
+          channel: '#general'
+          isCompactMode: true
+          url: ${{ secrets.SLACK_WEBHOOK_URL }}
