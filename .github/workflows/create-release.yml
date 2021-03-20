@@ -35,4 +35,5 @@ jobs:
           GIT_PR_RELEASE_BRANCH_PRODUCTION: release
           GIT_PR_RELEASE_BRANCH_STAGING: master
           GIT_PR_RELEASE_LABELS: release
-          GIT_PR_RELEASE_TITLE: hoge
+          NODE_VERSION: v${{ steps.package-version.outputs.current-version}}
+          GIT_PR_RELEASE_TEMPLATE: .git-pr-release-template
