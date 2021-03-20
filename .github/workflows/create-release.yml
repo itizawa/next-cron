@@ -1,7 +1,8 @@
 name: Create a release pull request
 
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches:
       - master
 
@@ -12,6 +13,10 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
+
+    - name: get-npm-version
+      id: package-version
+      uses: martinbeentjes/npm-get-version-action@master
 
     - name: Set up Ruby 2.6
       uses: actions/setup-ruby@v1
@@ -24,6 +29,7 @@ jobs:
         GIT_PR_RELEASE_BRANCH_PRODUCTION: release
         GIT_PR_RELEASE_BRANCH_STAGING: master
         GIT_PR_RELEASE_LABELS: release
+        GIT_PR_RELEASE_TEMPLATE: v${{ steps.package-version.outputs.current-version}}
       run: |
         gem install -N git-pr-release -v "1.2.0"
         git-pr-release --no-fetch
