@@ -5,10 +5,8 @@ on:
     tags:
       - 'v*'
 
-
 jobs:
   build:
-    name: Create Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
