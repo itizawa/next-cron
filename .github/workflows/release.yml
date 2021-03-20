@@ -20,10 +20,7 @@ jobs:
         with:
           tag_name: ${{ github.event.pull_request.title }}
           release_name: ${{ github.event.pull_request.title }}
-          body: |
-            Changes in this Release
-            - First Change
-            - Second Change
+          body: CHANGES.md
           draft: false
           prerelease: false
 
