@@ -2,9 +2,9 @@ name: Create Release
 
 on:
   pull_request:
-    types: [opened]
+    types: [closed]
     branches:
-      - master
+      - release
 
 jobs:
   build:
@@ -32,7 +32,7 @@ jobs:
         if: always()
         with:
           type: ${{ job.status }}
-          job_name: '*Release (${{ matrix.node-version }})*'
+          job_name: '*Release (${{ github.event.pull_request.title }})*'
           channel: '#general'
           isCompactMode: true
           url: ${{ secrets.SLACK_WEBHOOK_URL }}
