@@ -10,6 +10,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
 
+  steps:
     - name: Slack Notification
       uses: weseek/ghaction-slack-notification@master
       if: always()
