@@ -25,11 +25,8 @@ jobs:
           prerelease: false
 
       - name: Slack Notification
-        uses: weseek/ghaction-slack-notification@master
-        if: always()
+        uses: weseek/ghaction-release-slack-notification@master
         with:
-          type: ${{ job.status }}
-          job_name: '*Release (${{ github.event.pull_request.title }})*'
           channel: '#general'
-          isCompactMode: true
           url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          created_tag: '${{ github.event.pull_request.title }}'
