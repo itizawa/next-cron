@@ -38,4 +38,4 @@ jobs:
           consumer_secret: ${{ secrets.CONSUMER_SECRET }}
           access_token_key: ${{ secrets.ACCESS_TOKEN_KEY }}
           access_token_secret: ${{ secrets.ACCESS_TOKEN_SECRET }}
-          tweet_body: "[test]url のテスト https://qiita.com/itizawa"
+          tweet_body: "[test]改行 のテスト \n ${{ github.event.pull_request.title }} \nhttps://qiita.com/itizawa"
